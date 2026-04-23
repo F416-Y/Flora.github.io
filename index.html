@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flora's Space | 个人简历空间</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         /* 设计系统变量 - 玉桂狗可爱配色 */
         :root {
@@ -2238,6 +2239,11 @@
 
     <script src="admin-config.js"></script>
     <script>
+        // Supabase 云数据库初始化
+        const SUPABASE_URL = 'https://pysqkvwixysrpcbpamje.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5c3FrdndpeHlzcnBjYnBhbWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDE1NjYsImV4cCI6MjA5MjUxNzU2Nn0.vupzKeb7DJaC5p2_U6jHZLANseGvugpFjxV7Mw0SwUU';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
 
         // 滚动动画观察器
         let sectionObserver, cardObserver;
@@ -2906,8 +2912,8 @@
 
             if (!form || !messagesContainer) return;
 
-            // API 地址（空字符串 = 同源，部署到其他域名时请修改）
-            const API_BASE = window.GUESTBOOK_API_URL || '';
+            // Supabase 云数据库（全球跨设备同步）
+            const SB_TABLE = 'messages';
 
             // HTML 转义（防 XSS，用户输入不再仅限于本地）
             function escapeHtml(text) {
@@ -2916,7 +2922,7 @@
                 return div.innerHTML;
             }
 
-            // 从 API 加载留言
+            // 从 Supabase 加载留言
             async function loadMessages() {
                 try {
                     messagesContainer.innerHTML = `
@@ -2925,11 +2931,12 @@
                         </div>
                     `;
 
-                    const response = await fetch(`${API_BASE}/api/messages`);
-                    if (!response.ok) throw new Error('加载失败');
+                    const { data: messages, error } = await supabase
+                        .from(SB_TABLE)
+                        .select('*')
+                        .order('timestamp', { ascending: false });
 
-                    const data = await response.json();
-                    const messages = data.messages || [];
+                    if (error) throw error;
 
                     messagesContainer.innerHTML = '';
 
@@ -3016,33 +3023,37 @@
                     messagesContainer.innerHTML = `
                         <div style="text-align: center; padding: var(--spacing-xl); color: #EF4444;">
                             <p style="font-weight: 600; margin-bottom: 8px;">加载留言失败</p>
-                            <p style="font-size: 0.9rem; opacity: 0.7;">无法连接到服务器，请确保服务已启动</p>
+                            <p style="font-size: 0.9rem; opacity: 0.7;">${err.message || '网络错误，请稍后重试'}</p>
                             <button onclick="location.reload()" style="margin-top: 12px; padding: 8px 24px; background: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-body);">重新加载</button>
                         </div>
                     `;
                 }
             }
 
-            // 保存留言到 API
+            // 保存留言到 Supabase
             async function saveMessage(name, email, message) {
-                const response = await fetch(`${API_BASE}/api/messages`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, message })
-                });
+                const id = crypto.randomUUID();
+                const deleteToken = Array.from(crypto.getRandomValues(new Uint8Array(6)))
+                    .map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 12);
+                const timestamp = new Date().toISOString();
 
-                if (!response.ok) {
-                    const err = await response.json();
-                    throw new Error(err.error || '提交失败');
-                }
+                const { error } = await supabase
+                    .from(SB_TABLE)
+                    .insert({
+                        id,
+                        name: name.trim(),
+                        email: (email || '').trim(),
+                        message: message.trim(),
+                        timestamp,
+                        delete_token: deleteToken
+                    });
 
-                const data = await response.json();
-                const newMsg = data.message;
+                if (error) throw error;
 
                 // 在本浏览器记住该留言的删除令牌（方便发布者同设备直接删除）
-                localStorage.setItem(`guestbook_token_${newMsg.id}`, newMsg.deleteToken);
+                localStorage.setItem(`guestbook_token_${id}`, deleteToken);
 
-                return newMsg;
+                return { id, name: name.trim(), email: (email || '').trim(), message: message.trim(), timestamp, deleteToken };
             }
 
             // 删除留言（仅作者和发布者可删）
@@ -3076,16 +3087,35 @@
                         }
                     }
 
-                    const response = await fetch(`${API_BASE}/api/messages/${id}`, {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ deleteToken, authorPassword })
-                    });
-
-                    if (!response.ok) {
-                        const err = await response.json();
-                        alert(err.error || '删除失败');
-                        return;
+                    // 验证权限
+                    if (authorPassword) {
+                        // 作者密码验证通过，直接删除
+                        const { error } = await supabase
+                            .from(SB_TABLE)
+                            .delete()
+                            .match({ id });
+                        if (error) throw error;
+                    } else {
+                        // 发布者令牌验证：先查留言，匹配 delete_token
+                        const { data, error: selectError } = await supabase
+                            .from(SB_TABLE)
+                            .select('delete_token')
+                            .match({ id })
+                            .single();
+                        if (selectError) throw selectError;
+                        if (!data) {
+                            alert('留言不存在或已被删除');
+                            return;
+                        }
+                        if (data.delete_token !== deleteToken) {
+                            alert('验证失败！只有网站作者和留言发布者可以删除。');
+                            return;
+                        }
+                        const { error: deleteError } = await supabase
+                            .from(SB_TABLE)
+                            .delete()
+                            .match({ id });
+                        if (deleteError) throw deleteError;
                     }
 
                     // 清除本地存储的令牌
