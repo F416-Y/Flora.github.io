@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flora's Space | 个人简历空间</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <link rel="dns-prefetch" href="https://pysqkvwixysrpcbpamje.supabase.co">
     <style>
         /* 设计系统变量 - 玉桂狗可爱配色 */
         :root {
@@ -21,9 +20,9 @@
             --color-text-light: #64748B; /* 浅灰文字 */
             --color-border: #D1E8F0;     /* 边框颜色 */
 
-            --font-heading: 'Nunito', sans-serif;
-            --font-body: 'Quicksand', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
+            --font-heading: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+            --font-body: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+            --font-mono: 'Consolas', 'Courier New', monospace;
 
             --radius-sm: 8px;
             --radius-md: 12px;
@@ -2237,13 +2236,13 @@
     <!-- Canvas粒子场 -->
     <canvas class="particles-canvas" id="particlesCanvas"></canvas>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="admin-config.js"></script>
     <script>
         // Supabase 云数据库初始化
         const SUPABASE_URL = 'https://pysqkvwixysrpcbpamje.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5c3FrdndpeHlzcnBjYnBhbWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NDE1NjYsImV4cCI6MjA5MjUxNzU2Nn0.vupzKeb7DJaC5p2_U6jHZLANseGvugpFjxV7Mw0SwUU';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    </script>
 
         // 滚动动画观察器
         let sectionObserver, cardObserver;
