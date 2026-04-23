@@ -1459,6 +1459,360 @@
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
+        /* ======== 身份验证覆盖层 ======== */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(166, 209, 230, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 182, 193, 0.1), transparent 50%),
+                var(--color-background);
+            background-blend-mode: overlay;
+        }
+
+        .auth-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xxl);
+            width: 420px;
+            max-width: 90vw;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(166, 209, 230, 0.2);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .auth-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto var(--spacing-md);
+            border: 3px solid var(--color-primary);
+            padding: 3px;
+            overflow: hidden;
+        }
+
+        .auth-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .auth-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .auth-subtitle {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .auth-input-group {
+            position: relative;
+            text-align: left;
+        }
+
+        .auth-input-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-xs);
+            font-size: 0.9rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--color-text);
+            background: white;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .auth-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(166, 209, 230, 0.2);
+        }
+
+        .auth-input.error {
+            border-color: #EF4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .auth-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .auth-btn:active {
+            transform: translateY(0);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-error {
+            color: #EF4444;
+            font-size: 0.85rem;
+            min-height: 1.2em;
+            transition: opacity 0.3s ease;
+        }
+
+        .auth-role-hint {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .auth-role-btn {
+            flex: 1;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: white;
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--color-text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .auth-role-btn.active {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: rgba(166, 209, 230, 0.08);
+        }
+
+        .auth-role-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .auth-denied {
+            display: none;
+            text-align: center;
+            padding: var(--spacing-lg) 0;
+        }
+
+        .auth-denied .denied-icon {
+            font-size: 3rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-md);
+            opacity: 0.5;
+            line-height: 1;
+        }
+
+        .auth-denied h3 {
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .auth-denied p {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .auth-role-switch {
+            color: var(--color-primary);
+            cursor: pointer;
+            font-weight: 600;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: var(--transition);
+        }
+
+        .auth-role-switch:hover {
+            color: var(--color-blue-dark);
+        }
+
+        /* ======== 访客大纲模式 ======== */
+        .guest-mode .page-container {
+            filter: blur(0);
+            transition: filter 0.5s ease;
+        }
+
+        .guest-mode .card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guest-mode .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0) 40%,
+                rgba(248,250,252,0.92) 55%,
+                rgba(248,250,252,0.97) 100%);
+            z-index: 2;
+            pointer-events: none;
+            opacity: 1 !important;
+            border-radius: var(--radius-md);
+        }
+
+        .guest-mode .card .expanded-content {
+            display: none !important;
+        }
+
+        .guest-mode .card[data-expandable] {
+            cursor: default;
+        }
+
+        .guest-mode .card[data-expandable]:hover {
+            transform: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .guest-mode .hero p,
+        .guest-mode .hero-btn {
+            filter: blur(5px);
+            user-select: none;
+            pointer-events: none;
+            transition: filter 0.3s;
+        }
+
+        .guest-mode .hero h1 {
+            filter: blur(0);
+        }
+
+        .guest-mode .guestbook-grid .card::after {
+            display: none;
+        }
+
+        .guest-mode .guestbook-grid textarea,
+        .guest-mode .guestbook-grid input {
+            background: #f0f0f0 !important;
+            color: transparent !important;
+            pointer-events: none;
+        }
+
+        .guest-mode .guestbook-grid textarea::placeholder,
+        .guest-mode .guestbook-grid input::placeholder {
+            color: transparent !important;
+        }
+
+        .guest-mode .guestbook-grid button[type="submit"] {
+            opacity: 0.3;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+
+        /* 访客模式提示横幅 */
+        .guest-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9998;
+            background: linear-gradient(135deg, #64748B, #475569);
+            color: white;
+            padding: 10px var(--spacing-md);
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: var(--font-body);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+
+        .guest-banner.show {
+            display: block;
+            animation: bannerSlideDown 0.4s ease-out;
+        }
+
+        .guest-banner .banner-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            margin-left: var(--spacing-sm);
+            transition: background 0.3s;
+        }
+
+        .guest-banner .banner-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @keyframes bannerSlideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
         /* Canvas粒子场样式 */
         .particles-canvas {
             position: fixed;
@@ -1494,6 +1848,53 @@
             <div class="loading-dot"></div>
             <div class="loading-dot"></div>
         </div>
+    </div>
+
+    <!-- 身份验证覆盖层 -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-card">
+            <div class="auth-avatar">
+                <img src="玉桂狗.jpg" alt="Flora">
+            </div>
+            <h2 class="auth-title">身份验证</h2>
+            <p class="auth-subtitle">请选择您的身份以查看页面内容</p>
+
+            <div class="auth-form" id="authForm">
+                <div class="auth-role-hint">
+                    <button class="auth-role-btn active" data-role="hr" id="roleHR">
+                        HR / 招聘方
+                    </button>
+                    <button class="auth-role-btn" data-role="visitor" id="roleVisitor">
+                        普通访客
+                    </button>
+                </div>
+
+                <div id="authInputArea">
+                    <div class="auth-input-group">
+                        <label for="authPassword">HR 验证密码</label>
+                        <input type="password" id="authPassword" class="auth-input"
+                               placeholder="请输入HR验证密码" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="auth-error" id="authError"></div>
+
+                <button class="auth-btn" id="authSubmitBtn">验证身份</button>
+            </div>
+
+            <div class="auth-denied" id="authDenied">
+                <div class="denied-icon">[!]</div>
+                <h3>访问受限</h3>
+                <p>此页面包含个人隐私信息，仅限HR/招聘方查看。<br>如果您是招聘方，请切换身份并使用验证密码登录。</p>
+                <button class="auth-role-switch" id="authSwitchBtn">切换为HR身份</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 访客模式提示横幅 -->
+    <div class="guest-banner" id="guestBanner">
+        <span>访客模式 - 您正在以普通访客身份浏览页面大纲，仅HR/招聘方可查看完整内容</span>
+        <button class="banner-btn" id="guestSwitchBtn">切换HR身份</button>
     </div>
 
     <!-- F型布局容器 -->
@@ -1556,7 +1957,7 @@
                     Hi, I'm Flora
                 </h1>
                 <p style="font-size: 1.25rem; color: var(--color-text-light); margin-bottom: var(--spacing-xl); max-width: 500px;">
-                    Web Developer & Designer focused on creating elegant, functional digital experiences
+                    Exploring the optimal intersection of AI and user experience, crafting thoughtful intelligent products.
                 </p>
                 <button class="hero-btn" id="exploreBtn">
                     <span>View My Work</span>
@@ -2705,6 +3106,37 @@
                 }, 3000);
             }
 
+            // 显示删除成功消息
+            function showDeleteMessage() {
+                const deleteMsg = document.createElement('div');
+                deleteMsg.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #EF4444;
+                    color: white;
+                    padding: var(--spacing-md) var(--spacing-lg);
+                    border-radius: var(--radius-md);
+                    box-shadow: var(--shadow-lg);
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease-out;
+                `;
+
+                deleteMsg.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                        <span style="font-size: 1.2rem;">✕</span>
+                        <span>留言已删除</span>
+                    </div>
+                `;
+
+                document.body.appendChild(deleteMsg);
+
+                setTimeout(() => {
+                    deleteMsg.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => deleteMsg.remove(), 300);
+                }, 2000);
+            }
+
             // 添加CSS动画
             const style = document.createElement('style');
             style.textContent = `
@@ -3095,57 +3527,198 @@
             init();
         }
 
-        // 初始化页面导航
-        document.addEventListener('DOMContentLoaded', () => {
+        // ======== 身份验证系统 ========
+        const AUTH_PASSWORD = 'HR2026'; // HR验证密码
+
+        function initAuthSystem() {
+            const authOverlay = document.getElementById('authOverlay');
+            const authForm = document.getElementById('authForm');
+            const authDenied = document.getElementById('authDenied');
+            const authInputArea = document.getElementById('authInputArea');
+            const authPassword = document.getElementById('authPassword');
+            const authError = document.getElementById('authError');
+            const authSubmitBtn = document.getElementById('authSubmitBtn');
+            const roleHR = document.getElementById('roleHR');
+            const roleVisitor = document.getElementById('roleVisitor');
+            const authSwitchBtn = document.getElementById('authSwitchBtn');
+
+            if (!authOverlay) return true; // 没有验证组件，允许访问
+
+            let currentRole = 'hr';
+
+            // 角色切换
+            function setRole(role) {
+                currentRole = role;
+                roleHR.classList.toggle('active', role === 'hr');
+                roleVisitor.classList.toggle('active', role === 'visitor');
+
+                if (role === 'hr') {
+                    authInputArea.style.display = 'block';
+                    authError.textContent = '';
+                    authSubmitBtn.textContent = '验证身份';
+                    authDenied.style.display = 'none';
+                    authForm.style.display = 'flex';
+                } else {
+                    authInputArea.style.display = 'none';
+                    authError.textContent = '';
+                    authSubmitBtn.textContent = '进入页面';
+                    authDenied.style.display = 'none';
+                    authForm.style.display = 'flex';
+                }
+            }
+
+            function handleAuth() {
+                if (currentRole === 'hr') {
+                    const password = authPassword.value.trim();
+                    if (!password) {
+                        authError.textContent = '请输入验证密码';
+                        authPassword.classList.add('error');
+                        authPassword.focus();
+                        return;
+                    }
+                    if (password !== AUTH_PASSWORD) {
+                        authError.textContent = '密码错误，请重试';
+                        authPassword.classList.add('error');
+                        authPassword.value = '';
+                        authPassword.focus();
+                        return;
+                    }
+                    sessionStorage.setItem('floraAuth', 'hr');
+                    grantAccess();
+                } else {
+                    // 访客模式：显示页面大纲，隐藏内容
+                    grantGuestAccess();
+                }
+            }
+
+            function grantAccess() {
+                authOverlay.classList.add('hidden');
+                setTimeout(() => { authOverlay.remove(); }, 500);
+                initAllFeatures();
+            }
+
+            function grantGuestAccess() {
+                const guestBanner = document.getElementById('guestBanner');
+                const layout = document.querySelector('.f-layout');
+
+                // 隐藏验证层但保留在DOM中（供切回HR时复用）
+                authOverlay.style.display = 'none';
+                authOverlay.classList.remove('hidden');
+
+                if (layout) layout.classList.add('guest-mode');
+                if (guestBanner) guestBanner.classList.add('show');
+
+                initAllFeatures();
+            }
+
+            function switchToHRAuth() {
+                // 从访客模式切换回HR验证
+                const layout = document.querySelector('.f-layout');
+                const guestBanner = document.getElementById('guestBanner');
+
+                if (layout) layout.classList.remove('guest-mode');
+                if (guestBanner) guestBanner.classList.remove('show');
+
+                // 重新显示验证覆盖层
+                authOverlay.style.display = 'flex';
+                authOverlay.classList.remove('hidden');
+                setRole('hr');
+                authPassword.value = '';
+                authError.textContent = '';
+                authPassword.focus();
+            }
+
+            // 绑定事件
+            roleHR.addEventListener('click', () => setRole('hr'));
+            roleVisitor.addEventListener('click', () => setRole('visitor'));
+            authSubmitBtn.addEventListener('click', handleAuth);
+            authPassword.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleAuth();
+            });
+            authPassword.addEventListener('input', () => {
+                authPassword.classList.remove('error');
+                authError.textContent = '';
+            });
+            authSwitchBtn.addEventListener('click', () => {
+                authDenied.style.display = 'none';
+                authForm.style.display = 'flex';
+                setRole('hr');
+                authPassword.focus();
+            });
+
+            // 访客横幅切换回HR验证
+            const guestSwitchBtn = document.getElementById('guestSwitchBtn');
+            if (guestSwitchBtn) {
+                guestSwitchBtn.addEventListener('click', switchToHRAuth);
+            }
+
+            // 检查是否已认证
+            const authState = sessionStorage.getItem('floraAuth');
+            if (authState === 'hr') {
+                authOverlay.style.display = 'none';
+                return true;
+            }
+
+            // 延迟显示验证覆盖层
+            setTimeout(() => {
+                authOverlay.style.display = 'flex';
+                authPassword.focus();
+            }, 700);
+
+            return false;
+        }
+
+        let featuresInitialized = false;
+
+        function initAllFeatures() {
+            if (featuresInitialized) return;
+            featuresInitialized = true;
             try {
-                // 页面加载完成后淡出加载动画
-                const loadingOverlay = document.getElementById('loadingOverlay');
-                if (loadingOverlay) {
-                    // 等待一小段时间确保所有内容已加载，然后淡出加载动画
-                    setTimeout(() => {
-                        loadingOverlay.classList.add('hidden');
-                        // 动画结束后移除元素以释放资源
-                        setTimeout(() => {
-                            loadingOverlay.remove();
-                        }, 600); // 等待淡出动画完成
-                    }, 800); // 显示加载动画800ms
-                }
-
-                // 立即显示第一个section和其中的卡片
-                const sections = document.querySelectorAll('.section');
-                const cards = document.querySelectorAll('.card');
-
-                // 只显示当前活动页面中的section和card
-                const activePage = document.querySelector('.page.active');
-                if (activePage) {
-                    const activeSections = activePage.querySelectorAll('.section');
-                    const activeCards = activePage.querySelectorAll('.card');
-
-                    activeSections.forEach(section => {
-                        section.classList.add('visible');
-                    });
-
-                    activeCards.forEach(card => {
-                        card.classList.add('visible');
-                    });
-                }
-
+                // 初始化所有功能
                 initCinnamorollInteraction();
                 initExploreButton();
-                initPageNavigation(); // 初始化页面导航
-                initSidebarManualToggle(); // 初始化侧边栏手动切换
-                initGuestbook(); // 初始化留言板
-                initParticles(); // 初始化Canvas粒子系统
+                initPageNavigation();
+                initSidebarManualToggle();
+                initGuestbook();
+                initParticles();
             } catch (error) {
                 console.error('初始化错误:', error);
-                // 确保加载动画被移除
-                const loadingOverlay = document.getElementById('loadingOverlay');
-                if (loadingOverlay) {
+            }
+        }
+
+        // 初始化页面导航
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const alreadyAuthed = initAuthSystem(); // 先初始化验证系统
+
+            // 加载动画处理
+            if (loadingOverlay) {
+                setTimeout(() => {
                     loadingOverlay.classList.add('hidden');
                     setTimeout(() => {
                         loadingOverlay.remove();
                     }, 600);
-                }
+                }, 600);
+            }
+
+            // 立即显示第一个section和其中的卡片
+            const activePage = document.querySelector('.page.active');
+            if (activePage) {
+                const activeSections = activePage.querySelectorAll('.section');
+                const activeCards = activePage.querySelectorAll('.card');
+
+                activeSections.forEach(section => {
+                    section.classList.add('visible');
+                });
+
+                activeCards.forEach(card => {
+                    card.classList.add('visible');
+                });
+            }
+
+            // 如果已经认证，直接初始化所有功能
+            if (alreadyAuthed) {
+                initAllFeatures();
             }
         });
     </script>
