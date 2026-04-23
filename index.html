@@ -1692,36 +1692,9 @@
         }
 
         /* ======== 访客大纲模式 ======== */
-        .guest-mode .page-container {
-            filter: blur(0);
-            transition: filter 0.5s ease;
-        }
-
         .guest-mode .card {
             position: relative;
-            overflow: hidden;
-        }
-
-        .guest-mode .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg,
-                rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0) 40%,
-                rgba(248,250,252,0.92) 55%,
-                rgba(248,250,252,0.97) 100%);
-            z-index: 2;
-            pointer-events: none;
-            opacity: 1 !important;
-            border-radius: var(--radius-md);
-        }
-
-        .guest-mode .card .expanded-content {
-            display: none !important;
+            min-height: 60px;
         }
 
         .guest-mode .card[data-expandable] {
@@ -1733,38 +1706,27 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .guest-mode .hero p,
-        .guest-mode .hero-btn {
-            filter: blur(5px);
-            user-select: none;
-            pointer-events: none;
-            transition: filter 0.3s;
+        .guest-mode .placeholder-line {
+            display: block;
+            height: 12px;
+            background: linear-gradient(90deg, var(--color-border) 25%, rgba(166,209,230,0.3) 50%, var(--color-border) 75%);
+            border-radius: 6px;
+            margin: var(--spacing-sm) 0;
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
         }
 
-        .guest-mode .hero h1 {
-            filter: blur(0);
+        .guest-mode .placeholder-line.short { width: 40%; }
+        .guest-mode .placeholder-line.medium { width: 65%; }
+        .guest-mode .placeholder-line.long { width: 85%; }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        .guest-mode .guestbook-grid .card::after {
-            display: none;
-        }
-
-        .guest-mode .guestbook-grid textarea,
-        .guest-mode .guestbook-grid input {
-            background: #f0f0f0 !important;
-            color: transparent !important;
-            pointer-events: none;
-        }
-
-        .guest-mode .guestbook-grid textarea::placeholder,
-        .guest-mode .guestbook-grid input::placeholder {
-            color: transparent !important;
-        }
-
-        .guest-mode .guestbook-grid button[type="submit"] {
-            opacity: 0.3;
-            pointer-events: none;
-            filter: grayscale(1);
+        .guest-mode .guestbook-grid .card {
+            min-height: 200px;
         }
 
         /* 访客模式提示横幅 */
@@ -1985,7 +1947,7 @@
                             <div class="grid">
                                 <div class="card" data-expandable>
                                     <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">个人简介</h3>
-                                    <p style="color: var(--color-text-light); line-height: 1.8;">雷佩凡 | AI应用实习生</p>
+                                    <p style="color: var(--color-text-light); line-height: 1.8;">雷佩凡 | 意向岗位：AI应用实习生</p>
                                     <p style="color: var(--color-text-light); line-height: 1.8; margin-top: var(--spacing-sm);">电话: +86 16608309417 | 微信: dd740f</p>
                                     <p style="color: var(--color-text-light); line-height: 1.8; margin-top: var(--spacing-sm);">邮箱: 2921435404@qq.com | 地址: 四川省成都市</p>
                                     <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
@@ -3592,6 +3554,12 @@
             }
 
             function grantAccess() {
+                // 如果是从访客模式切来的，内容已被删除，刷新页面恢复完整内容
+                if (window._fromGuestMode) {
+                    window._fromGuestMode = false;
+                    window.location.reload();
+                    return;
+                }
                 authOverlay.classList.add('hidden');
                 setTimeout(() => { authOverlay.remove(); }, 500);
                 initAllFeatures();
@@ -3608,11 +3576,75 @@
                 if (layout) layout.classList.add('guest-mode');
                 if (guestBanner) guestBanner.classList.add('show');
 
+                // 删除具体内容，只保留结构框架
+                stripContentForGuest();
+
                 initAllFeatures();
             }
 
+            function stripContentForGuest() {
+                // 1. 处理内容卡片：跳过留言板
+                document.querySelectorAll('.card:not(#page-guestbook .card)').forEach(card => {
+                    // 技能与专长页卡片全部保留
+                    if (card.closest('#page-skills')) return;
+
+                    const inAboutPage = card.closest('#page-about');
+                    const title = card.querySelector('h3');
+
+                    // 关于我页面 - 个人简介卡：只删除联系方式，保留姓名和院校信息
+                    if (inAboutPage && title && title.textContent.includes('个人简介')) {
+                        // 删除联系方式行（包含电话/微信/邮箱/地址的p标签）
+                        card.querySelectorAll('p').forEach(p => {
+                            if (p.closest('h3')) return;
+                            if (p.textContent.match(/电话|微信|邮箱|地址/)) {
+                                p.remove();
+                            }
+                        });
+                        // 展开内容保留（院校专业信息）
+                        return; // 不执行后面的通用删除逻辑
+                    }
+
+                    // 关于我 - 技能概览卡保留全部内容
+                    if (inAboutPage && title && title.textContent.includes('技能概览')) return;
+
+                    // 通用删除逻辑
+                    card.querySelectorAll('p:not(.placeholder-line)').forEach(p => {
+                        if (p.closest('h3')) return;
+                        const text = p.textContent.trim();
+                        if (!text) { p.remove(); return; }
+                        const ph = document.createElement('div');
+                        ph.className = 'placeholder-line ' +
+                            (text.length > 40 ? 'long' : text.length > 20 ? 'medium' : 'short');
+                        p.replaceWith(ph);
+                    });
+                    const expanded = card.querySelector('.expanded-content');
+                    if (expanded) expanded.remove();
+                    card.querySelectorAll('ul').forEach(ul => ul.remove());
+                    card.querySelectorAll('div:not(.expanded-content):not([style*="display: flex"])').forEach(div => {
+                        if (div.querySelector('h3') || div.querySelector('.placeholder-line')) return;
+                        const text = div.textContent.trim();
+                        if (!text || text.length < 5) { div.remove(); }
+                    });
+                });
+
+                // 2. 英雄区：删除副标题和按钮
+                const hero = document.querySelector('.hero');
+                if (hero) {
+                    const desc = hero.querySelector('p');
+                    if (desc && !desc.querySelector('strong')) desc.remove();
+                    const btn = hero.querySelector('.hero-btn');
+                    if (btn) btn.remove();
+                }
+
+                // 3. 技能专长页的副标题
+                const skillDesc = document.querySelector('#page-skills p');
+                if (skillDesc && !skillDesc.closest('.card')) skillDesc.remove();
+            }
+
             function switchToHRAuth() {
-                // 从访客模式切换回HR验证
+                // 标记来自访客模式，HR验证成功后需刷新页面恢复内容
+                window._fromGuestMode = true;
+
                 const layout = document.querySelector('.f-layout');
                 const guestBanner = document.getElementById('guestBanner');
 
