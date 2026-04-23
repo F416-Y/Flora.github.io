@@ -2236,6 +2236,7 @@
     <!-- Canvas粒子场 -->
     <canvas class="particles-canvas" id="particlesCanvas"></canvas>
 
+    <script src="admin-config.js"></script>
     <script>
 
         // 滚动动画观察器
@@ -2967,7 +2968,7 @@
                                         style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 1.1rem; padding: 2px 6px; border-radius: 4px; transition: var(--transition); opacity: 0; line-height: 1;"
                                         onmouseover="this.style.background='rgba(239,68,68,0.1)'; this.style.opacity='1'"
                                         onmouseout="this.style.background='none'; this.style.opacity='0'"
-                                        title="删除留言">×</button>
+                                        title="删除留言（作者/发布者）">×</button>
                             </div>
                         </div>
                         <div style="color: var(--color-text); line-height: 1.6; white-space: pre-wrap;">${msg.message}</div>
@@ -2999,16 +3000,21 @@
             // 保存留言到localStorage
             function saveMessage(name, email, message) {
                 const messages = JSON.parse(localStorage.getItem('guestbookMessages') || '[]');
+                const deleteToken = Math.random().toString(36).substring(2, 12); // 发布者删除令牌
                 const newMessage = {
                     name: name.trim(),
                     email: email ? email.trim() : '',
                     message: message.trim(),
                     timestamp: new Date().toISOString(),
-                    _id: Math.random().toString(36).substring(2, 10) // 唯一ID用于删除
+                    _id: Math.random().toString(36).substring(2, 10), // 唯一ID
+                    deleteToken: deleteToken // 发布者删除令牌
                 };
 
                 messages.push(newMessage);
                 localStorage.setItem('guestbookMessages', JSON.stringify(messages));
+
+                // 在本浏览器记住该留言的删除令牌（方便发布者直接删除）
+                localStorage.setItem(`guestbook_token_${newMessage._id}`, deleteToken);
 
                 // 重新加载留言
                 loadMessages();
@@ -3016,18 +3022,42 @@
                 return newMessage;
             }
 
-            // 删除留言
+            // 删除留言（仅作者和发布者可删）
             function deleteMessage(timestamp, id) {
-                if (!confirm('确定要删除这条留言吗？')) return;
-
                 const messages = JSON.parse(localStorage.getItem('guestbookMessages') || '[]');
-                const filtered = messages.filter(msg =>
-                    !(msg.timestamp === timestamp && msg._id === id)
+                const msg = messages.find(m => m.timestamp === timestamp && m._id === id);
+                if (!msg) return;
+
+                // 检查本浏览器是否有该留言的删除令牌（发布者同设备免输入）
+                const localToken = localStorage.getItem(`guestbook_token_${id}`);
+                if (localToken === msg.deleteToken) {
+                    // 同设备发布者，直接删除
+                } else {
+                    // 作者密码（从外部 config 读取，未配置时使用默认值）
+                    const authorPassword = window.AUTHOR_PASSWORD || 'admin888';
+
+                    // 弹出验证：作者密码 或 发布者删除令牌
+                    const input = prompt(
+                        '输入作者密码可直接删除\n' +
+                        '输入发布者删除令牌可删除自己的留言\n\n' +
+                        '作者密码：'
+                    );
+                    if (!input) return;
+
+                    if (input !== authorPassword && input !== msg.deleteToken) {
+                        alert('验证失败！只有网站作者和留言发布者可以删除。');
+                        return;
+                    }
+                }
+
+                const filtered = messages.filter(m =>
+                    !(m.timestamp === timestamp && m._id === id)
                 );
 
-                if (filtered.length === messages.length) return; // 没有找到匹配的留言
-
                 localStorage.setItem('guestbookMessages', JSON.stringify(filtered));
+
+                // 清除本地存储的令牌
+                localStorage.removeItem(`guestbook_token_${id}`);
 
                 // 显示删除成功提示
                 showDeleteMessage();
@@ -3037,7 +3067,7 @@
             }
 
             // 显示成功消息
-            function showSuccessMessage() {
+            function showSuccessMessage(deleteToken) {
                 const successMsg = document.createElement('div');
                 successMsg.style.cssText = `
                     position: fixed;
@@ -3050,12 +3080,19 @@
                     box-shadow: var(--shadow-lg);
                     z-index: 1000;
                     animation: slideIn 0.3s ease-out;
+                    max-width: 360px;
                 `;
 
                 successMsg.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                    <div style="display: flex; align-items: flex-start; gap: var(--spacing-sm);">
                         <span style="font-size: 1.2rem;">✓</span>
-                        <span>留言提交成功！</span>
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">留言提交成功！</div>
+                            <div style="font-size: 0.85rem; opacity: 0.9; line-height: 1.5;">
+                                删除令牌：<strong style="font-family: monospace; background: rgba(255,255,255,0.2); padding: 1px 6px; border-radius: 4px; user-select: all;">${deleteToken}</strong>
+                                <br><span style="opacity: 0.8;">请保存此令牌，可用于删除留言</span>
+                            </div>
+                        </div>
                     </div>
                 `;
 
@@ -3139,10 +3176,10 @@
                 }
 
                 // 保存留言
-                saveMessage(name, email, message);
+                const newMsg = saveMessage(name, email, message);
 
-                // 显示成功消息
-                showSuccessMessage();
+                // 显示成功消息（含删除令牌）
+                showSuccessMessage(newMsg.deleteToken);
 
                 // 重置表单
                 form.reset();
