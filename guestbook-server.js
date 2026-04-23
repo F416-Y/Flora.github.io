@@ -10,6 +10,7 @@ const path = require('path');
 const crypto = require('crypto');
 const initSqlJs = require('sql.js');
 const fs = require('fs');
+const os = require('os');
 
 const PORT = process.env.PORT || 3001;
 const AUTHOR_PASSWORD = process.env.AUTHOR_PASSWORD || 'FloraAdmin0416';
@@ -178,14 +179,32 @@ app.delete('/api/messages/:id', (req, res) => {
   }
 });
 
+// 获取局域网 IP
+function getLanIp() {
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return '无法获取';
+}
+
 // ===== 启动服务器 =====
 async function start() {
   await initDatabase();
+  const lanIp = getLanIp();
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n  ✦ Flora's Space 留言板服务已启动 ✦`);
     console.log(`  ───────────────────────────────`);
-    console.log(`  本地访问:     http://localhost:${PORT}`);
+    console.log(`  本机访问:     http://localhost:${PORT}`);
+    console.log(`  局域网访问:   http://${lanIp}:${PORT}`);
+    console.log(`  手机访问:   请确保手机和电脑在同一个 WiFi 下`);
+    console.log(`              然后在手机浏览器打开上面的"局域网访问"地址`);
+    console.log(`  ───────────────────────────────`);
     console.log(`  API 地址:     http://localhost:${PORT}/api/messages`);
     console.log(`  作者密码:     ${AUTHOR_PASSWORD}`);
     console.log(`  数据库位置:   ${DB_PATH}`);
