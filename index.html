@@ -62,12 +62,6 @@
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
             /* 网格背景变量 */
-            --grid-size: 20px;
-            --grid-color-1: rgba(166, 209, 230, 0.2);
-            --grid-color-2: rgba(126, 184, 218, 0.15);
-            --grid-color-3: rgba(255, 182, 193, 0.1);
-            --grid-dot-size: 1.5px;
-            --grid-line-width: 0.5px;
         }
 
         /* 基础样式 */
@@ -141,40 +135,6 @@
             }
         }
 
-        /* 网格动画 */
-        @keyframes gridFloat {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-5px) translateX(3px);
-            }
-            50% {
-                transform: translateY(0) translateX(5px);
-            }
-            75% {
-                transform: translateY(5px) translateX(3px);
-            }
-        }
-
-        @keyframes gridPulse {
-            0%, 100% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-        }
-
-        @keyframes shapeRotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         /* 章节装饰线条 */
         .section::before {
             content: '';
@@ -243,77 +203,16 @@
             height: 100%;
             background:
                 /* 点状网格背景 */
-                radial-gradient(circle at 1px 1px, var(--grid-color-1) var(--grid-dot-size), transparent 0),
-                radial-gradient(circle at 1px 1px, var(--grid-color-2) var(--grid-dot-size), transparent 0),
-                radial-gradient(circle at 1px 1px, var(--grid-color-3) calc(var(--grid-dot-size) * 0.5), transparent 0),
-                /* 线条网格 */
-                linear-gradient(to right, var(--grid-color-1) var(--grid-line-width), transparent var(--grid-line-width)),
-                linear-gradient(to bottom, var(--grid-color-1) var(--grid-line-width), transparent var(--grid-line-width)),
+                radial-gradient(circle at 1px 1px, rgba(166, 209, 230, 0.18) 1px, transparent 0),
+                radial-gradient(circle at 1px 1px, rgba(126, 184, 218, 0.1) 1px, transparent 0),
                 /* 渐变底色 */
                 linear-gradient(135deg,
                     rgba(166, 209, 230, 0.05) 0%,
-                    rgba(193, 225, 247, 0.03) 25%,
-                    rgba(126, 184, 218, 0.02) 50%,
-                    rgba(255, 182, 193, 0.01) 75%,
+                    rgba(193, 225, 247, 0.03) 50%,
                     rgba(255, 255, 255, 0.005) 100%);
-            background-size:
-                var(--grid-size) var(--grid-size),
-                calc(var(--grid-size) * 2) calc(var(--grid-size) * 2),
-                calc(var(--grid-size) * 4) calc(var(--grid-size) * 4),
-                var(--grid-size) var(--grid-size),
-                var(--grid-size) var(--grid-size),
-                100% 100%;
-            background-position:
-                0 0,
-                calc(var(--grid-size) * 0.5) calc(var(--grid-size) * 0.5),
-                calc(var(--grid-size) * 1.5) calc(var(--grid-size) * 1.5),
-                0 0,
-                0 0,
-                0 0;
+            background-size: 40px 40px, 80px 80px, 100% 100%;
+            background-position: 0 0, 20px 20px, 0 0;
             z-index: -1;
-            animation: gridFloat 20s ease-in-out infinite;
-        }
-
-        /* 网格装饰元素 */
-        .hero-bg::before,
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .hero-bg::before {
-            background-image:
-                /* 三角形装饰 */
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30,10 L50,50 L10,50 Z' fill='rgba(166, 209, 230, 0.1)'/%3E%3C/svg%3E"),
-                url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40,20 L60,60 L20,60 Z' fill='rgba(126, 184, 218, 0.08)'/%3E%3C/svg%3E"),
-                /* 心形装饰 */
-                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20,35 C15,30 5,25 5,15 C5,10 10,5 15,5 C18,5 20,7 20,7 C20,7 22,5 25,5 C30,5 35,10 35,15 C35,25 25,30 20,35 Z' fill='rgba(255, 182, 193, 0.1)'/%3E%3C/svg%3E");
-            background-size: 60px 60px, 80px 80px, 40px 40px;
-            background-position:
-                10% 20%,
-                85% 70%,
-                70% 30%;
-            background-repeat: no-repeat;
-            animation: gridFloat 25s ease-in-out infinite reverse, gridPulse 8s ease-in-out infinite;
-        }
-
-        .hero-bg::after {
-            background-image:
-                /* 六边形装饰 */
-                url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25,5 L45,15 L45,35 L25,45 L5,35 L5,15 Z' fill='none' stroke='rgba(166, 209, 230, 0.15)' stroke-width='1'/%3E%3C/svg%3E"),
-                url("data:image/svg+xml,%3Csvg width='70' height='70' viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M35,10 L55,25 L55,45 L35,60 L15,45 L15,25 Z' fill='none' stroke='rgba(126, 184, 218, 0.12)' stroke-width='1'/%3E%3C/svg%3E");
-            background-size: 50px 50px, 70px 70px;
-            background-position:
-                20% 80%,
-                90% 10%;
-            background-repeat: no-repeat;
-            animation: shapeRotate 60s linear infinite, gridPulse 12s ease-in-out infinite;
         }
 
         /* 英雄区域装饰线条 */
@@ -546,16 +445,6 @@
                 grid-template-columns: 1fr;
             }
 
-            /* 移动端网格调整 */
-            :root {
-                --grid-size: 30px;
-                --grid-dot-size: 1px;
-            }
-
-            .hero-bg::before,
-            .hero-bg::after {
-                opacity: 0.7;
-            }
         }
 
         /* 工具条 */
@@ -955,21 +844,6 @@
                 min-width: 90px;
                 font-size: 0.85rem;
             }
-
-            /* 小屏幕网格调整 */
-            :root {
-                --grid-size: 40px;
-            }
-
-            .hero-bg::before,
-            .hero-bg::after {
-                opacity: 0.5;
-                background-size: 40px 40px, 60px 60px, 30px 30px;
-            }
-
-            .hero-bg::after {
-                background-size: 40px 40px, 50px 50px;
-            }
         }
 
         /* 超小屏幕 (360px以下) */
@@ -984,18 +858,6 @@
 
             .card {
                 padding: var(--spacing-sm);
-            }
-
-            /* 超小屏幕网格简化 */
-            .hero-bg::before,
-            .hero-bg::after {
-                display: none; /* 在超小屏幕上隐藏装饰元素 */
-            }
-
-            :root {
-                --grid-size: 50px;
-                --grid-color-1: rgba(166, 209, 230, 0.15);
-                --grid-color-2: rgba(126, 184, 218, 0.1);
             }
         }
 
@@ -3815,13 +3677,17 @@
             if (featuresInitialized) return;
             featuresInitialized = true;
             try {
-                // 初始化所有功能
+                // 立即初始化：导航、按钮交互等核心功能
                 initCinnamorollInteraction();
                 initExploreButton();
                 initPageNavigation();
                 initSidebarManualToggle();
-                initGuestbook();
-                initParticles();
+
+                // 延迟初始化：留言板和粒子系统（不阻塞首屏渲染）
+                setTimeout(() => {
+                    initGuestbook();
+                    initParticles();
+                }, 100);
             } catch (error) {
                 console.error('初始化错误:', error);
             }
@@ -3838,8 +3704,8 @@
                     loadingOverlay.classList.add('hidden');
                     setTimeout(() => {
                         loadingOverlay.remove();
-                    }, 600);
-                }, 600);
+                    }, 400);
+                }, 200);
             }
 
             // 立即显示第一个section和其中的卡片
