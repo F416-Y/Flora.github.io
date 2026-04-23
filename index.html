@@ -60,7 +60,11 @@
             --glass-border: rgba(255, 255, 255, 0.2);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
-            /* 网格背景变量 */
+            --grid-size: 20px;
+            --grid-color-1: rgba(166, 209, 230, 0.2);
+            --grid-color-2: rgba(126, 184, 218, 0.15);
+            --grid-dot-size: 1.5px;
+            --grid-line-width: 0.5px;
         }
 
         /* 基础样式 */
@@ -134,6 +138,14 @@
             }
         }
 
+        /* 网格动画 */
+        @keyframes gridFloat {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-5px) translateX(3px); }
+            50% { transform: translateY(0) translateX(5px); }
+            75% { transform: translateY(5px) translateX(3px); }
+        }
+
         /* 章节装饰线条 */
         .section::before {
             content: '';
@@ -202,16 +214,25 @@
             height: 100%;
             background:
                 /* 点状网格背景 */
-                radial-gradient(circle at 1px 1px, rgba(166, 209, 230, 0.18) 1px, transparent 0),
-                radial-gradient(circle at 1px 1px, rgba(126, 184, 218, 0.1) 1px, transparent 0),
+                radial-gradient(circle at 1px 1px, var(--grid-color-1) var(--grid-dot-size), transparent 0),
+                radial-gradient(circle at 1px 1px, var(--grid-color-2) var(--grid-dot-size), transparent 0),
+                /* 线条网格 */
+                linear-gradient(to right, var(--grid-color-1) var(--grid-line-width), transparent var(--grid-line-width)),
+                linear-gradient(to bottom, var(--grid-color-1) var(--grid-line-width), transparent var(--grid-line-width)),
                 /* 渐变底色 */
                 linear-gradient(135deg,
                     rgba(166, 209, 230, 0.05) 0%,
-                    rgba(193, 225, 247, 0.03) 50%,
+                    rgba(126, 184, 218, 0.02) 50%,
                     rgba(255, 255, 255, 0.005) 100%);
-            background-size: 40px 40px, 80px 80px, 100% 100%;
-            background-position: 0 0, 20px 20px, 0 0;
+            background-size:
+                var(--grid-size) var(--grid-size),
+                calc(var(--grid-size) * 2) calc(var(--grid-size) * 2),
+                var(--grid-size) var(--grid-size),
+                var(--grid-size) var(--grid-size),
+                100% 100%;
+            background-position: 0 0, calc(var(--grid-size) * 0.5) calc(var(--grid-size) * 0.5), 0 0, 0 0, 0 0;
             z-index: -1;
+            animation: gridFloat 20s ease-in-out infinite;
         }
 
         /* 英雄区域装饰线条 */
