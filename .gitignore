@@ -1,2 +1,9 @@
 # 管理员配置（含密码）
 admin-config.js
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# 留言板数据库
+guestbook.db
