@@ -13,7 +13,7 @@ window.PERSONAL_CONFIG = {
   school: "XX大学",
   major: "计算机科学与技术",
   eduPeriod: "2024.9-预计2028.6",
-  avgScore: "85/100",
+  avgScore: "87/100",
   ranking: "专业排名前10%",
   cet4: "500+",
   cet6: "500+",
@@ -33,6 +33,11 @@ window.PERSONAL_CONFIG = {
   skillLanguagesDetail: "具备良好的英语沟通能力，能够阅读英文技术文档。",
   skillProgrammingDetail: "具备前端开发基础，对Web技术有浓厚兴趣。",
 
+  // 荣誉称号
+  honorName: "XX竞赛省赛一等奖",
+  honorYear: "2026年",
+  honorDesc: "算法设计与编程能力、问题求解能力",
+
   // 工作经历
   workCompany: "XX科技有限公司",
   workTitle: "前端开发实习生",
@@ -44,16 +49,45 @@ window.PERSONAL_CONFIG = {
   workDetail3: "与后端团队协作完成接口联调",
   workDetail4: "积累了项目开发与团队协作经验",
 
-  // 项目经历
-  projectName: "个人博客项目",
-  projectTopic: "前后端分离博客系统",
-  projectPeriod: "2025.4-至今",
-  projectContext: "学习前后端分离架构，实践React + Node.js全栈开发。",
-  projectDetail1: "使用React + TypeScript构建前端界面",
-  projectDetail2: "使用Node.js + Express搭建后端API",
-  projectDetail3: "实现用户认证、文章管理等核心功能",
-  projectDetail4: "部署至云服务器，积累运维经验",
-  projectDetail5: "当前进展：持续优化性能与用户体验",
+  // 项目1
+  p1_name: "科研项目名称",
+  p1_subtitle: "研究方向 | 时间周期",
+  p1_context: "项目背景与目标简述。",
+  p1_d1: "关键贡献点1",
+  p1_d2: "关键贡献点2",
+  p1_d3: "关键贡献点3",
+  p1_d4: "关键贡献点4",
+  p1_d5: "关键贡献点5",
+
+  // 项目2
+  p2_name: "工程项目名称",
+  p2_subtitle: "项目简介 | 时间周期 | 团队规模",
+  p2_context: "项目背景与目标简述。",
+  p2_d1: "关键贡献点1",
+  p2_d2: "关键贡献点2",
+  p2_d3: "关键贡献点3",
+  p2_d4: "关键贡献点4",
+  p2_d5: "关键贡献点5",
+
+  // 项目3
+  p3_name: "开源项目名称",
+  p3_subtitle: "项目简介（开源）| 时间",
+  p3_context: "项目背景与目标简述。",
+  p3_d1: "关键贡献点1",
+  p3_d2: "关键贡献点2",
+  p3_d3: "关键贡献点3",
+  p3_d4: "关键贡献点4",
+  p3_d5: "关键贡献点5",
+
+  // 项目4
+  p4_name: "实习/协作项目名称",
+  p4_subtitle: "角色 | 地点 | 时间",
+  p4_context: "项目背景与目标简述。",
+  p4_d1: "关键贡献点1",
+  p4_d2: "关键贡献点2",
+  p4_d3: "关键贡献点3",
+  p4_d4: "关键贡献点4",
+  p4_d5: "关键贡献点5",
 
   // 校园经历
   campusOrg1: "XX大学计算机协会",
@@ -63,13 +97,6 @@ window.PERSONAL_CONFIG = {
   campusDetail1_1: "参与协会技术部门日常工作",
   campusDetail1_2: "负责活动页面开发与维护",
   campusDetail1_3: "锻炼了团队协作与项目管理能力",
-
-  campusOrg2: "开源社区贡献",
-  campusProject2: "文档翻译项目",
-  campusPeriod2: "2025.2-至今",
-  campusContext2: "优质开源项目文档需要多语言支持。",
-  campusDetail2_1: "参与开源项目文档翻译",
-  campusDetail2_2: "提升了技术文档阅读与写作能力",
 
   // 留言板联系方式
   contactEmailLabel: "邮箱：",
