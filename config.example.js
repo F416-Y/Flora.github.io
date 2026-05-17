@@ -52,6 +52,7 @@ window.PERSONAL_CONFIG = {
   // 项目1
   p1_name: "科研项目名称",
   p1_subtitle: "研究方向 | 时间周期",
+  p1_tech: "Python · PyTorch · HuggingFace Transformers · scikit-learn",
   p1_context: "项目背景与目标简述。",
   p1_d1: "关键贡献点1",
   p1_d2: "关键贡献点2",
@@ -62,6 +63,7 @@ window.PERSONAL_CONFIG = {
   // 项目2
   p2_name: "工程项目名称",
   p2_subtitle: "项目简介 | 时间周期 | 团队规模",
+  p2_tech: "Python · FastAPI · ResNet · t-SNE · Hugging Face",
   p2_context: "项目背景与目标简述。",
   p2_d1: "关键贡献点1",
   p2_d2: "关键贡献点2",
@@ -72,6 +74,7 @@ window.PERSONAL_CONFIG = {
   // 项目3
   p3_name: "开源项目名称",
   p3_subtitle: "项目简介（开源）| 时间",
+  p3_tech: "Python · JSON · Skill 框架 · argparse",
   p3_context: "项目背景与目标简述。",
   p3_d1: "关键贡献点1",
   p3_d2: "关键贡献点2",
@@ -82,6 +85,7 @@ window.PERSONAL_CONFIG = {
   // 项目4
   p4_name: "实习/协作项目名称",
   p4_subtitle: "角色 | 地点 | 时间",
+  p4_tech: "HTML5 · CSS3 · JavaScript · Joomla · PHP",
   p4_context: "项目背景与目标简述。",
   p4_d1: "关键贡献点1",
   p4_d2: "关键贡献点2",
