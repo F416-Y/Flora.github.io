@@ -1,6 +1,6 @@
 # Flora's Space
 
-个人简历网站：[timely-smakager-5c50f1.netlify.app](http://timely-smakager-5c50f1.netlify.app)
+个人简历网站：[floraspace.netlify.app](https://floraspace.netlify.app)
 
 ## 技术栈
 
