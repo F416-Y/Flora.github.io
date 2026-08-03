@@ -1811,6 +1811,12 @@
                         <path d="M12 5v14M19 12l-7 7-7-7"/>
                     </svg>
                 </button>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: var(--spacing-lg);">
+                    <span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(166,209,230,0.15); color: var(--color-blue-dark); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(166,209,230,0.3);">🏢 友宏医疗实习中</span>
+                    <span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(255,182,193,0.15); color: #C97B8B; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,182,193,0.3);">🎓 小米实训中</span>
+                    <span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(126,184,218,0.12); color: var(--color-blue-dark); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(126,184,218,0.25);">📄 论文已录用</span>
+                    <span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(255,215,0,0.12); color: #B8860B; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(255,215,0,0.25);">🏆 蓝桥杯省一</span>
+                </div>
             </div>
         </div>
 
@@ -1872,7 +1878,8 @@
                                 <div class="card" data-expandable>
                                     <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><span data-config="school"></span></h3>
                                     <p style="color: var(--color-text-light);"><span data-config="major"></span> | <span data-config="city"></span>, <span data-config="eduPeriod"></span></p>
-                                    <p style="color: var(--color-text-light); margin-top: var(--spacing-sm);">平均分：<span data-config="avgScore"></span> | <span data-config="ranking"></span></p>
+                                    <p style="color: var(--color-text-light); margin-top: var(--spacing-sm);">加权平均分：<span data-config="avgScore"></span> | 算术平均分：<span data-config="arithScore"></span></p>
+                                    <p style="color: var(--color-text-light); margin-top: var(--spacing-xs);"><span data-config="ranking"></span></p>
                                     <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
                                         <p style="color: var(--color-text);"><strong>专业课程：</strong><span data-config="coursesMajor"></span></p>
                                         <p style="color: var(--color-text); margin-top: var(--spacing-sm);"><strong>基础课程：</strong><span data-config="coursesBasic"></span></p>
@@ -1893,46 +1900,60 @@
                                         技能与专长
                                     </h2>
                                     <p style="font-size: 1.25rem; color: var(--color-text-light); max-width: 600px; margin: 0 auto;">
-                                        具备扎实的编程基础、语言能力和办公软件技能，致力于AI应用开发
+                                        从前端到后端，从开发到工具链，持续拓展技术边界
                                     </p>
                                 </div>
 
                                 <div class="grid">
                                     <div class="card" data-expandable>
-                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">语言能力</h3>
-                                        <p style="color: var(--color-text-light); line-height: 1.8;"><span data-config="skillLanguages"></span></p>
+                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">前端开发</h3>
+                                        <p style="color: var(--color-text-light); line-height: 1.8;">微信小程序 · HTML/CSS/JS · 响应式布局 · API对接</p>
                                         <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
-                                            <p style="color: var(--color-text);" data-config="skillLanguagesDetail"></p>
+                                            <p style="color: var(--color-text);">具备微信小程序完整开发能力，掌握WXML/WXSS/云开发等技术栈，能够独立完成前端页面开发与API对接。</p>
                                             <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
-                                                <li>大学英语四级：<span data-config="cet4"></span></li>
-                                                <li>大学英语六级：<span data-config="cet6"></span></li>
-                                                <li>技术文档阅读与翻译</li>
+                                                <li>微信小程序：WXML / WXSS / 云开发 / 导航框架</li>
+                                                <li>Web前端：HTML5 / CSS3 / JavaScript / 响应式布局</li>
+                                                <li>API对接：RESTful接口调用与数据联调</li>
                                             </ul>
                                         </div>
                                     </div>
 
                                     <div class="card" data-expandable>
-                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">编程技能</h3>
-                                        <p style="color: var(--color-text-light); line-height: 1.8;"><span data-config="skillProgramming"></span></p>
+                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">后端了解</h3>
+                                        <p style="color: var(--color-text-light); line-height: 1.8;">FastAPI · Node.js云函数 · 数据库基础</p>
                                         <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
-                                            <p style="color: var(--color-text);" data-config="skillProgrammingDetail"></p>
+                                            <p style="color: var(--color-text);">了解后端开发基础，能够使用FastAPI搭建简单API服务，熟悉Node.js云函数开发流程。</p>
                                             <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
-                                                <li>Python编程基础</li>
-                                                <li>机器学习基础理论</li>
-                                                <li>自然语言处理项目经验</li>
+                                                <li>FastAPI：路由设计 / 请求参数校验 / 接口文档自动生成</li>
+                                                <li>Node.js云函数：微信云开发 / 数据库操作</li>
+                                                <li>数据库：MySQL基础查询 / MongoDB基础</li>
                                             </ul>
                                         </div>
                                     </div>
 
                                     <div class="card" data-expandable>
-                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">办公软件</h3>
-                                        <p style="color: var(--color-text-light); line-height: 1.8;">熟练使用PPT、Word、Excel等办公软件</p>
+                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">开发工具</h3>
+                                        <p style="color: var(--color-text-light); line-height: 1.8;">Git分支协作 · Docker基础 · VS Code · DevTools</p>
                                         <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
-                                            <p style="color: var(--color-text);">能够熟练使用办公软件进行文档处理、数据分析和演示汇报。</p>
+                                            <p style="color: var(--color-text);">熟练使用主流开发工具进行团队协作开发，具备版本控制和容器化部署的基础能力。</p>
                                             <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
-                                                <li>Microsoft Office套件</li>
-                                                <li>文档编写与排版</li>
-                                                <li>数据分析与图表制作</li>
+                                                <li>Git：分支管理 / 合并冲突解决 / Pull Request流程</li>
+                                                <li>Docker：镜像构建 / 容器运行 / Docker Compose基础</li>
+                                                <li>VS Code：高效编辑 / 插件生态 / 远程开发</li>
+                                                <li>Chrome DevTools：调试 / 性能分析 / 网络请求排查</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="card" data-expandable>
+                                        <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm); font-size: 1.5rem;">编程语言</h3>
+                                        <p style="color: var(--color-text-light); line-height: 1.8;">Python（主力） · SQL（学习中） · Java（课程基础）</p>
+                                        <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
+                                            <p style="color: var(--color-text);">以Python为核心开发语言，具备数据处理和机器学习项目经验，同时拓展SQL和Java技能。</p>
+                                            <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
+                                                <li>Python：数据分析（pandas/numpy）/ 机器学习（scikit-learn）/ Web（FastAPI）</li>
+                                                <li>SQL：数据查询 / 表操作 / 正在系统学习中</li>
+                                                <li>Java：面向对象编程 / 课程项目经验</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -2038,6 +2059,70 @@
                                             <li data-config="p4_d3"></li>
                                             <li data-config="p4_d4"></li>
                                             <li data-config="p4_d5"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card" data-expandable>
+                                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><span data-config="p5_name"></span></h3>
+                                    <p style="color: var(--color-text-light);"><span data-config="p5_subtitle"></span></p>
+                                    <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
+                                        <p style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem;" data-config="p5_tech"></p>
+                                        <p style="color: var(--color-text);" data-config="p5_context"></p>
+                                        <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
+                                            <li data-config="p5_d1"></li>
+                                            <li data-config="p5_d2"></li>
+                                            <li data-config="p5_d3"></li>
+                                            <li data-config="p5_d4"></li>
+                                            <li data-config="p5_d5"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card" data-expandable>
+                                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><span data-config="p6_name"></span></h3>
+                                    <p style="color: var(--color-text-light);"><span data-config="p6_subtitle"></span></p>
+                                    <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
+                                        <p style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem;" data-config="p6_tech"></p>
+                                        <p style="color: var(--color-text);" data-config="p6_context"></p>
+                                        <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
+                                            <li data-config="p6_d1"></li>
+                                            <li data-config="p6_d2"></li>
+                                            <li data-config="p6_d3"></li>
+                                            <li data-config="p6_d4"></li>
+                                            <li data-config="p6_d5"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card" data-expandable>
+                                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><span data-config="p7_name"></span></h3>
+                                    <p style="color: var(--color-text-light);"><span data-config="p7_subtitle"></span></p>
+                                    <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
+                                        <p style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem;" data-config="p7_tech"></p>
+                                        <p style="color: var(--color-text);" data-config="p7_context"></p>
+                                        <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
+                                            <li data-config="p7_d1"></li>
+                                            <li data-config="p7_d2"></li>
+                                            <li data-config="p7_d3"></li>
+                                            <li data-config="p7_d4"></li>
+                                            <li data-config="p7_d5"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card" data-expandable>
+                                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-sm);"><span data-config="p8_name"></span></h3>
+                                    <p style="color: var(--color-text-light);"><span data-config="p8_subtitle"></span></p>
+                                    <div class="expanded-content" style="display: none; margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid rgba(166, 209, 230, 0.3);">
+                                        <p style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem;" data-config="p8_tech"></p>
+                                        <p style="color: var(--color-text);" data-config="p8_context"></p>
+                                        <ul style="color: var(--color-text); margin-top: var(--spacing-sm); padding-left: var(--spacing-md);">
+                                            <li data-config="p8_d1"></li>
+                                            <li data-config="p8_d2"></li>
+                                            <li data-config="p8_d3"></li>
+                                            <li data-config="p8_d4"></li>
+                                            <li data-config="p8_d5"></li>
                                         </ul>
                                     </div>
                                 </div>
